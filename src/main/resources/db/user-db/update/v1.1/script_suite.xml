@@ -1,0 +1,26 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+
+    <changeSet id="v1.1_20200509_001" author="wanghm">
+        <sqlFile path="001_deparment.sql" relativeToChangelogFile="true"></sqlFile>
+        <comment>添加deparment remark字段，并赋值默认值和</comment>
+    </changeSet>
+
+    <changeSet id="v1.1_20200509_002" author="wanghm">
+        <sqlFile path="002_person.sql" relativeToChangelogFile="true"></sqlFile>
+        <comment>添加person remark字段，并赋值默认值和</comment>
+    </changeSet>
+
+    <changeSet id="v1.1_20200509_003" author="wanghm">
+        <sqlFile path="003_add_role.sql" relativeToChangelogFile="true"></sqlFile>
+        <comment>添加role角色表</comment>
+    </changeSet>
+
+
+
+
+</databaseChangeLog>
