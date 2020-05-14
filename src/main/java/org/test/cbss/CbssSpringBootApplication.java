@@ -3,11 +3,7 @@ package org.test.cbss;
 import herb.modules.liquibase.HerbLiquibaseAutoConfiguration;
 import herb.modules.liquibase.HerbLiquibaseProperties;
 import herb.modules.liquibase.HerbLiquibaseRunner;
-import liquibase.Liquibase;
-import liquibase.database.Database;
-import liquibase.exception.DatabaseException;
-import liquibase.integration.commandline.Main;
-import liquibase.integration.spring.SpringLiquibase;
+import herb.modules.liquibase.ProjectVersionsProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +13,6 @@ import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Arrays;
 
 @SpringBootApplication(exclude = LiquibaseAutoConfiguration.class)
@@ -34,9 +28,16 @@ public class CbssSpringBootApplication implements CommandLineRunner {
 
     HerbLiquibaseProperties liquibaseProperties;
 
+    ProjectVersionsProperties projectVersionsProperties;
+
     @Autowired
     public void setLiquibase(HerbLiquibaseProperties liquibaseProperties) {
         this.liquibaseProperties = liquibaseProperties;
+    }
+
+    @Autowired
+    public void setProjectVersionsProperties(ProjectVersionsProperties projectVersionsProperties) {
+        this.projectVersionsProperties = projectVersionsProperties;
     }
 
     @Override
@@ -48,7 +49,7 @@ public class CbssSpringBootApplication implements CommandLineRunner {
         log.info("bean: {}", liquibaseProperties);
         if(args != null && args.length > 0) {
             log.info("start main run...");
-            HerbLiquibaseRunner runner = new HerbLiquibaseRunner(liquibaseProperties);
+            HerbLiquibaseRunner runner = new HerbLiquibaseRunner(liquibaseProperties,projectVersionsProperties);
             runner.run(args);
             //Main.run(args);
             //liquibase.afterPropertiesSet();

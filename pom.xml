@@ -83,19 +83,8 @@
         -->
     </dependencies>
 
+
     <build>
-        <!-- 剔除不打包进来的配置文件 -->
-
-<!--        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <excludes>
-                    <exclude>application.yml</exclude>
-                    <exclude>logback-spring.xml</exclude>
-                </excludes>
-            </resource>
-        </resources>-->
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -125,7 +114,7 @@
                 <configuration>
                     <mainClass>${start-class}</mainClass>
                     <executable>true</executable>
-                    <finalName>app</finalName>
+                    <finalName>herb-liquibase-1.0</finalName>
                 </configuration>
                 <executions>
                     <execution>
@@ -149,36 +138,80 @@
                 </configuration>
             </plugin>
             -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
-            </plugin>
-
-            <!--
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.6</version>
-                <configuration>
-                    <appendAssemblyId>false</appendAssemblyId>
-                    <descriptors>
-                        <descriptor>/assembly.xml</descriptor>
-                    </descriptors>
-                    <outputDirectory>${project.build.directory}/dist/</outputDirectory>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            -->
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>pack</id>
+            <build>
+                <!-- 剔除不打包进来的配置文件 -->
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <excludes>
+                            <exclude>application-datasource.yml</exclude>
+                            <exclude>application-version.yml</exclude>
+<!--                            <exclude>logback-spring.xml</exclude>-->
+                            <exclude>db/</exclude>
+                        </excludes>
+                    </resource>
+                </resources>
+
+                <plugins>
+                    <!-- 打包成jar文件，并指定lib文件夹以及resources资源文件夹 -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>3.0.2</version>
+                        <!--<configuration>
+                            <excludes>
+                                <exclude>**/*.properties</exclude>
+                                <exclude>**/*.yml</exclude>
+                                <exclude>logback-spring.xml</exclude>
+                            </excludes>
+                            <archive>
+                                <manifest>
+                                    <mainClass>${start-class}</mainClass>
+                                    <classpathPrefix>lib/</classpathPrefix>
+                                    <addClasspath>true</addClasspath>
+                                </manifest>
+                                <manifestEntries>
+                                    <Class-Path>resources/</Class-Path>
+                                </manifestEntries>
+                            </archive>
+                        </configuration>-->
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>2.6</version>
+                        <configuration>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <descriptors>
+                                <descriptor>assembly.xml</descriptor>
+                            </descriptors>
+                            <outputDirectory>${project.build.directory}/dist/</outputDirectory>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>make-assembly</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 
 
