@@ -1,0 +1,27 @@
+spring:
+#  profiles:
+#    include: datasource
+  info:
+    version: 1.0
+  application:
+    name: liquibase
+    ##数据库配置
+    #  datasource:
+    #    driver-class-name: com.mysql.jdbc.Driver
+    #    url: jdbc:mysql://192.168.137.100:3306/liquibase?useUnicode=true&characterEncoding=UTF-8
+    #    username: root
+    #    password: 123456
+    #    hikari:
+    #      maximum-pool-size: 3
+    ## liquibase
+    #  liquibase:
+    # spring boot 2以上禁用Spring Boot自动运行Liquibase
+    #Spring Boot在应用程序启动时自动运行Liquibase数据库迁移。
+    #    enabled: false
+    # 禁止清库执行
+  profiles:
+    active: local
+#    drop-first: true
+#    change-log: classpath:/db.changelog-master.xml
+#    database-change-log-table: lg_db_change_log
+#    database-change-log-lock-table: lg_db_change_log_lock

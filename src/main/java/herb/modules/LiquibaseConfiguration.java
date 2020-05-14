@@ -1,4 +1,4 @@
-package org.test.cbss;
+package herb.modules;
 
 import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.beans.factory.ObjectProvider;

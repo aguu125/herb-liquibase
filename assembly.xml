@@ -10,8 +10,7 @@
         <fileSet>
             <directory>${basedir}/src/main/resources</directory>
             <includes>
-                <include>application-datasource.yml</include>
-                <include>application-version.yml</include>
+                <include>application-local.yml</include>
 <!--                <include>logback-spring.xml</include>-->
 <!--                <include>db/**</include>-->
             </includes>

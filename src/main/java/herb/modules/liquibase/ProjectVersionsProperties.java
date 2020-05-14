@@ -3,13 +3,18 @@ package herb.modules.liquibase;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@Component
 @ConfigurationProperties(prefix = "project")
+@PropertySource(value ={"classpath:db/versions.yml"},factory = MixPropertySourceFactory.class)
 public class ProjectVersionsProperties {
 
     @Getter
