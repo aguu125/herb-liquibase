@@ -1,5 +1,3 @@
-#!/bin/bash
-
 PROFILE=""
 
 if [ "$1" == "" ]; then
@@ -14,5 +12,4 @@ ARGS=update
 
 java -Xbootclasspath/a:./resources -Dfile.encoding=utf-8 -Dspring.profiles.active=$PROFILE -jar herb-liquibase-1.0.jar $ARGS
 
-
-ECHO ...
+echo finish!
