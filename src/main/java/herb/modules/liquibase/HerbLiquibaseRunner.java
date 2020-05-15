@@ -124,6 +124,7 @@ public class HerbLiquibaseRunner {
             message.append(arg+" ");
         }
         message.append("\n 执行结果：");
+
         if(successCount == changeLogPropList.size()){
             message.append(" SUCCESS");
         }else{
@@ -136,8 +137,11 @@ public class HerbLiquibaseRunner {
         }
         message.append("\n----------------\n");
         log.info(message.toString());
-
-        System.exit(errorLevel);
+        if(successCount == changeLogPropList.size()) {
+            System.exit(0);
+        }else{
+            System.exit(-1);
+        }
     }
 
     private int runForDatabase(ProjectVersionsProperties.DatabaseChangeLogProp databaseChangeLogProp,

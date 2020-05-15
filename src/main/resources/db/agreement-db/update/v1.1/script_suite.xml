@@ -8,9 +8,21 @@
     <changeSet id="v1.1_20200509_001" author="wanghm">
         <comment>添加remark字段，并赋值默认值和</comment>
         <sqlFile path="001_ddl_agreement.sql" relativeToChangelogFile="true"></sqlFile>
+        <!--
         <rollback>
             <sqlFile path="001_ddl_agreement_rollback.sql"  relativeToChangelogFile="true"></sqlFile>
         </rollback>
+        -->
+    </changeSet>
+
+    <changeSet id="v1.1_002_20200509" author="wanghm">
+        <comment>和</comment>
+        <sqlFile path="002_add_hr.sql" relativeToChangelogFile="true"></sqlFile>
+        <!--
+        <rollback>
+            <sqlFile path="001_ddl_agreement_rollback.sql"  relativeToChangelogFile="true"></sqlFile>
+        </rollback>
+        -->
     </changeSet>
 
 
