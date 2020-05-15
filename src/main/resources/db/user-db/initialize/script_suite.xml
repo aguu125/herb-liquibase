@@ -5,7 +5,7 @@
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
 
-    <changeSet id="v1.0_20200509_001" author="wanghm">
+    <changeSet id="000_20200509_001" author="wanghm">
         <sqlFile path="dll_v1.0.sql" relativeToChangelogFile="true"></sqlFile>
         <comment>初始化表结构</comment>
     </changeSet>

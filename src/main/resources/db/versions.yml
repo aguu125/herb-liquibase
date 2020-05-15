@@ -20,5 +20,3 @@ project:
     change-logs:
     - database: agreement-db
       change-Log: RELEASE_1.2_changelog.xml
-    - database: user-db
-      change-Log: RELEASE_1.1_changelog.xml

@@ -4,7 +4,7 @@ TITLE database update tools (v1.0)
 :MENU
 ECHO.
 echo. ******************************************
-echo. ******database update tools (v1.2)*******
+echo. ******database update tools (v1.0)*******
 echo. *****************************************
 echo.  -------------------------------
 echo.	update
@@ -24,10 +24,11 @@ set /p ARGS=
 IF "%ARGS%"=="exit" EXIT
 
 PAUSE
+
 ECHO.
 
-java -Xbootclasspath/a:./resources -jar herb-liquibase-1.0.jar %ARGS%
+java -Xbootclasspath/a:./resources -jar -Dfile.encoding=utf-8 herb-liquibase-1.0.jar %ARGS%
 
-ECHO.  -----------------------------
+ECHO.
 
 goto MENU
