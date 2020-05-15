@@ -16,7 +16,6 @@ echo.  -------------------------------
 
 ECHO.
 echo.  please input your command...
-
 ECHO.
 
 set /p ARGS=

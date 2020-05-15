@@ -96,7 +96,7 @@ public class HerbLiquibaseRunner {
 
             if (dbLiquibaseProperties == null) {
                 log.error("不存在{} 的数据库配置信息", databaseChangeLogProp.getDatabase());
-                databaseReport.add(dbName+"\t\t\t FAIL,不存在{} 的数据库配置信息");
+                databaseReport.add(dbName+"\t\t\t FAIL,读取不到数据库配置信息");
                 //System.exit(-1);
                 continue;
             }
