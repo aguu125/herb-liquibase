@@ -1,6 +1,25 @@
 # herb-liquibase
 基于liquibase ，和springboot命令行模式 进行数据库脚本管理和升级
 
+## dist目录介绍
+dist/
++ herb-liquibase-1.0.jar //核心执行jar
++ application-local.yml //数据库连接配置文件，可以按照环境多个application-*.yml
++ update.sh //执行sh脚本 
++ resources/db  //数据库升级脚本目录
+    ++ versions.yml //版本管理文件
+    ++ cbss-db //数据库名称（非实际数据库名,与versions.yml,applicaton-local.yml 里面指定名称一致就可以）    
+        ++ initializ //初始版本脚本目录
+           ++ v1.0 //表示初始脚本从1.0开始
+                ++ script_suite.xml 版本sql维护
+                ++ 001_xx.sql,002_xx.sql .... // 数据库脚本
+        ++ update //升级脚本目录 
+            ++ v1.1 //
+                 ++ script_suite.xml 版本sql维护
+                 ++ 001_xx.sql,002_xx.sql .... // 数据库脚本
+            ++ v1.2 //
+            ...
+            
 ##使用说明：
 主要分为两个部分：
 ## （一）运维升级
