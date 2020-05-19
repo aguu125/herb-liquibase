@@ -1,4 +1,4 @@
-# herb-liquibase-example
+# herb-liquibase
 基于liquibase ，和springboot命令行模式 进行数据库脚本管理和升级
 
 ##使用说明：
@@ -64,10 +64,12 @@ v1.1_changelog.xml
 
 2.2 脚本目录放在db/{数据库命名}/update/{版本号}
 命名规范，例如：001_add_customer_table.sql
-原则一个sql表示一个事务，避免执行失败后再次执行会报错。
+注意：一个 <changeSet> 的执行是在一个事务里面，所以引入的一个sql的脚本都要保证是在一个事务内，
+避免执行失败后再次执行会报错。
 
 2.3 配置版本
 将sql 配置到 对应版本的script_suite.xml
+
 ```
 <changeSet id="v1.1_002_20200509" author="wanghm">
         <comment>和</comment>
@@ -78,9 +80,9 @@ v1.1_changelog.xml
         
     </changeSet>
 ```
-1. 一定要提供对应sql的rollback脚本好后期提供版本回滚
-2. id命名规范：${版本号}+${3位编号}+${提交时间},一定记录author
-3. 已提交执行的sql 和changeSet 不能修改，不能修改，不能修改！
+1. 一定要提供对应 rollback脚本（dll 类型修改一定，dml数据类修改可选），以便后期提供版本回滚
+2. id命名规范：${版本号}+${3位编号}+${提交时间},一定写记录author
+3. 已提交执行的过的 sql 和changeSet 不能修改，不要去修改！ （已执行过的 changeSet 文件code 校验 失败）
 
 
 
