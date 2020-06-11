@@ -1,0 +1,47 @@
+<project name="test" basedir="." default="0.about">
+
+    <property file="${basedir}/build.properties"/>
+    <property name="target.dir" value="${basedir}"/>
+<!--    <property name="lib.dir" value="${basedir}/build.properties"></property>-->
+
+
+    <tstamp>
+        <format property="date.stamp" pattern="yyyy/MM/dd HH:mm:ss"/>
+    </tstamp>
+
+    <!--
+    <path id="classpath">
+        <fileset dir="${lib.dir}" casesensitive="false"/>
+    </path>
+    -->
+
+
+    <target name="0.about" description="Show help info.">
+        <echo message="${date.stamp}"/>
+        <echo message="This is [${app.name}] database migration." />
+        <echo message="Database infos:" />
+        <echo message="jdbc.driver = ${jdbc.driver}" />
+        <echo message="jdbc.url = ${jdbc.url}" />
+        <echo message="username = ${username}" />
+        <echo message="password = ${password}" />
+    </target>
+
+
+    <target name="1.init-db" depends="0.about" description="initialize database.">
+        <echo message="${date.stamp}"/>
+    </target>
+
+    <target name="2.upgrade-db" depends="0.about" description="Update database.">
+
+    </target>
+
+    <macrodef name="migrateDb">
+        <attribute name="script.dir"/>
+        <sequential>
+            <echo message="Excecute script:@{script.dir}"/>
+
+        </sequential>
+    </macrodef>
+
+
+</project>

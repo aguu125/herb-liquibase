@@ -1,0 +1,90 @@
+<project name="agreement-db" xmlns:liquibase="antlib:liquibase.integration.ant"
+         basedir="." default="0.about">
+
+
+
+    <property file="${basedir}/build.properties"/>
+    <property name="target.dir" value="${basedir}"/>
+    <property name="lib.dir" value="${basedir}/lib"></property>
+
+    <tstamp>
+        <format property="date.stamp" pattern="yyyy/MM/dd HH:mm:ss"/>
+    </tstamp>
+
+    <path id="classpath">
+        <fileset dir="${lib.dir}" casesensitive="false"/>
+<!--        <fileset dir="data" casesensitive="true"/>-->
+    </path>
+
+    <taskdef resource="liquibase/integration/ant/antlib.xml"
+             uri="antlib:liquibase.integration.ant">
+        <classpath refid="classpath"/>
+    </taskdef>
+
+   <!--
+   <taskdef resource="liquibase.properties">
+        <classpath refid="classpath"/>
+    </taskdef>
+    -->
+
+
+    <target name="0.about" description="Show help info.">
+        <echo message="${date.stamp}"/>
+        <echo message="This is [${app.name}] database migration." />
+        <echo message="Database infos:" />
+        <echo message="jdbc.driver = ${jdbc.driver}" />
+        <echo message="jdbc.url = ${jdbc.url}" />
+        <echo message="username = ${username}" />
+        <echo message="password = ${password}" />
+    </target>
+
+
+    <target name="1.init-db" depends="0.about" description="Initialize database.">
+        <echo message="Initialize database."/>
+        <migrateDb script.dir="${target.dir}/data/initialize" dropFirst="false"/>
+<!--        <migrateDb script.dir="${target.dir}/data/procedure" dropFirst="false"/>-->
+<!--        <migrateDb script.dir="${target.dir}/data/event" dropFirst="false"/>-->
+    </target>
+
+
+    <target name="2.upgrade-db" depends="0.about" description="Update database.">
+        <echo message="upgrade database."/>
+        <migrateDb script.dir="${target.dir}/data/v1.1" dropFirst="false"/>
+        <migrateDb script.dir="${target.dir}/data/v1.2" dropFirst="false"/>
+        <migrateDb script.dir="${target.dir}/data/v1.3" dropFirst="false"/>
+    </target>
+
+    <macrodef name="migrateDb">
+        <attribute name="script.dir"/>
+        <attribute name="dropFirst" default="false"/>
+
+        <sequential>
+            <echo message="Execute script:@{script.dir}"/>
+            <liquibase:database  id="agreement-database"
+                                 driver="${jdbc.driver}"
+                                 url="${jdbc.url}"
+                                 user="${username}"
+                                 password="${password}"
+                                 databaseChangeLogTableName="lg_db_change_log"
+                                 databaseChangeLogLockTableName="lg_db_change_log_lock">
+            </liquibase:database>
+
+
+            <liquibase:updateDatabase databaseref="agreement-database"
+                                      changelogfile="@{script.dir}/script_suite.xml"
+                                      dropFirst="@{dropFirst}"
+                                      promptOnNonLocalDatabase="${prompt.user.if.not.local.database}"
+                classpathref="classpath">
+
+                <liquibase:changeLogParameters>
+                    <liquibase:changeLogParameter  name="target.dir"  value="${target.dir}"/>
+                </liquibase:changeLogParameters>
+            </liquibase:updateDatabase>
+        </sequential>
+    </macrodef>
+
+
+
+
+
+</project>
