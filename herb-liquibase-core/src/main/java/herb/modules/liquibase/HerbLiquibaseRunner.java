@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 //通过spring boot的 配置文件信息
@@ -34,11 +35,12 @@ public class HerbLiquibaseRunner {
 
         ProjectVersionsProperties.DatabaseVersionProperties changelogProperties = null;
 
+
         if ("updateToVersion".equalsIgnoreCase(args[0])) {
             try {
 
                 if (args.length < 2 || StringUtils.hasText(args[1]) == false) {
-                    log.error("updateToVersion 命令缺少版本参数");
+                    log.error("updateToVersion 命令缺少版本参数.");
                     System.exit(-1);
                 }
 
@@ -66,6 +68,7 @@ public class HerbLiquibaseRunner {
                 changelogProperties
                         = versionsProperties.getVersions().get(versionsProperties.getVersions().size() - 1);
             }
+
         }
 
         if (changelogProperties == null) {
@@ -79,37 +82,35 @@ public class HerbLiquibaseRunner {
         }
 
         //开始执行版本
-        List<ProjectVersionsProperties.DatabaseChangeLogProp> changeLogPropList
+        List<ProjectVersionsProperties.DatabaseChangeLogProp> databaseChangeLogs
                 = changelogProperties.getChangeLogs();
 
         List<String> databaseReport= new ArrayList<>();
 
         int successCount = 0;
 
-        for (int i = 0; i < changeLogPropList.size(); i++) {
+        //开始编译每个数据库，并执行该版本的changelogs
+        for (int i = 0; i < databaseChangeLogs.size(); i++) {
             ProjectVersionsProperties.DatabaseChangeLogProp
-                    databaseChangeLogProp = changeLogPropList.get(i);
+                    databaseChangeLogProp = databaseChangeLogs.get(i);
             String dbName = databaseChangeLogProp.getDatabase();
 
             HerbDbLiquibaseProperties dbLiquibaseProperties = null;
             for (Map.Entry<String, HerbDbLiquibaseProperties> entry
                     : liquibaseProperties.getDatabases().entrySet()) {
                 String databaseName = entry.getKey();
-                if (databaseName.equals(databaseChangeLogProp.getDatabase())) {
+                if (databaseName.equals(dbName)) {
                     dbLiquibaseProperties = entry.getValue();
                     break;
                 }
             }
 
             if (dbLiquibaseProperties == null) {
-                log.error("不存在{} 的数据库配置信息", databaseChangeLogProp.getDatabase());
+                log.error("不存在{} 的数据库配置信息", dbName);
                 databaseReport.add(dbName+"\t\t\t FAIL,读取不到数据库配置信息");
                 //System.exit(-1);
                 continue;
             }
-
-
-
 
             log.info("================== start to run database 【{}】,command is {}  ===========", dbName, args);
 
@@ -121,9 +122,7 @@ public class HerbLiquibaseRunner {
                 log.error(e.getMessage(),e);
                 databaseReport.add(dbName+"\t\t\t FAIL,执行发布异常！");
             }
-
         }
-
 
         StringBuilder message = new StringBuilder("\n----------------\n");
         message.append("\n 执行命令：");
@@ -132,7 +131,7 @@ public class HerbLiquibaseRunner {
         }
         message.append("\n 执行结果：");
 
-        if(successCount == changeLogPropList.size()){
+        if(successCount == databaseChangeLogs.size()){
             message.append(" SUCCESS");
         }else{
             message.append(" FAIL");
@@ -144,7 +143,7 @@ public class HerbLiquibaseRunner {
         }
         message.append("\n----------------\n");
         log.info(message.toString());
-        if(successCount == changeLogPropList.size()) {
+        if(successCount == databaseChangeLogs.size()) {
             System.exit(0);
         }else{
             System.exit(-1);
@@ -155,11 +154,28 @@ public class HerbLiquibaseRunner {
                                HerbDbLiquibaseProperties properties, String[] args) throws LiquibaseException {
 
         String[] globalOptions = buildGlobalOptions(databaseChangeLogProp, properties);
-        List<String> runArgs = new ArrayList<>();
+
+        //如果执行更新，强制打tag
+        if("update".equals(args[0])){
+            SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
+            String tagName= databaseChangeLogProp.getDatabase()+"_startUpdate_"+sf.format(new Date());
+            runLiquibaseCommand(globalOptions,new String[]{"tag",tagName});
+            runLiquibaseCommand(globalOptions,args);
+        }else {
+            runLiquibaseCommand(globalOptions, args);
+        }
+
+
+
+        return 0;
+    }
+
+    public void runLiquibaseCommand(String[] globalOptions,String[] args)throws LiquibaseException{
+
+        final List<String> runArgs = new ArrayList<>();
         for (String globalOption : globalOptions) {
             runArgs.add(globalOption);
         }
-
         for (String arg : args) {
             runArgs.add(arg);
         }
@@ -169,15 +185,23 @@ public class HerbLiquibaseRunner {
             for(String arg: runArgs){
                 str.append("\n  "+arg);
             }
+
             log.info("执行命令 \n liquibase {} ",str.toString());
 
             Main.run(runArgs.toArray(new String[runArgs.size()]));
         } catch (Throwable e) {
             throw e;
         }
-        return 0;
     }
 
+
+
+    /**
+     *  生成liquibase global 的参数，对应liquibase.properties
+     * @param databaseChangeLogProp
+     * @param properties
+     * @return
+     */
     private String[] buildGlobalOptions(ProjectVersionsProperties.DatabaseChangeLogProp databaseChangeLogProp,
                                         HerbDbLiquibaseProperties properties) {
         List<String> globalOptions = new ArrayList<>();
@@ -194,8 +218,7 @@ public class HerbLiquibaseRunner {
         globalOptions.add(String.format("--password=%s", password));
 
 
-        String changeLogFile
-                = "/db/" + databaseChangeLogProp.getDatabase() + "/" + databaseChangeLogProp.getChangeLog();
+        String changeLogFile = databaseChangeLogProp.getChangeLog();
         globalOptions.add(String.format("--changeLogFile=%s", changeLogFile));
 
 

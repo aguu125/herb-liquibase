@@ -43,12 +43,32 @@
             <jvmarg line="-Dliquibase.databases.agreement-db.password=${password}"/>
 
 
-            <arg value="update"/>
+            <arg line="updateToVersion v1.0"/>
+
         </java>
     </target>
 
     <target name="2.upgrade-db" depends="0.about" description="Update database.">
+        <echo message="Upgrade database."/>
+        <java fork="true" failonerror="true"
+              maxmemory="512M"
+              dir="."
+              jar="./lib/herb-liquibase-1.0.jar">
 
+            <jvmarg line="-Xbootclasspath/a:./data"></jvmarg>
+            <jvmarg line="-Xbootclasspath/a:./lib/mysql-connector-java-8.0.19.jar"></jvmarg>
+            <jvmarg line="-Dfile.encoding=utf-8"/>
+
+            <jvmarg line="-Dspring.profiles.active=ant"/>
+
+            <jvmarg line="-Dliquibase.databases.agreement-db.driver=${jdbc.driver}"/>
+            <jvmarg line="-Dliquibase.databases.agreement-db.url=${jdbc.url}"/>
+            <jvmarg line="-Dliquibase.databases.agreement-db.username=${username}"/>
+            <jvmarg line="-Dliquibase.databases.agreement-db.password=${password}"/>
+
+
+            <arg value="update"/>
+        </java>
     </target>
 
 
