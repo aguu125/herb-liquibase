@@ -1,0 +1,16 @@
+liquibase:
+  databases:
+    agreement-db:
+      driver: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://192.168.137.100:3306/agreement_db?useUnicode=true&characterEncoding=UTF-8
+      username: root
+      password: 123456
+    #      database-change-log-table: agreement_db_change_log
+    #      database-change-log-lock-table: agreement_db_change_log_lock
+    user-db:
+      driver: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://192.168.137.100:3306/user_db?useUnicode=true&characterEncoding=UTF-8
+      username: root
+      password: 123456
+#      database-change-log-table: user_db_change_log
+#      database-change-log-lock-table: user_db_change_log_lock

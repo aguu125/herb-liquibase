@@ -1,0 +1,55 @@
+<project name="test" basedir="." default="0.about">
+
+    <property file="${basedir}/build.properties"/>
+    <property name="lib.dir" value="${basedir}/lib"></property>
+    <property name="target.dir" value="${basedir}"/>
+    <property name="changelog.dir" value="${basedir}/resources"/>
+
+    <tstamp>
+        <format property="date.stamp" pattern="yyyy/MM/dd HH:mm:ss"/>
+    </tstamp>
+
+    <path id="lib.dir">
+        <fileset dir="${lib.dir}"/>
+    </path>
+
+    <target name="0.about" description="Show help info.">
+        <echo message="${date.stamp}"/>
+        <echo message="This is [${app.name}] database migration." />
+        <echo message="Database infos:" />
+        <echo message="jdbc.driver = ${jdbc.driver}" />
+        <echo message="jdbc.url = ${jdbc.url}" />
+        <echo message="username = ${username}" />
+        <echo message="password = ${password}" />
+    </target>
+
+    <target name="1.init-db" depends="0.about"
+            description="initialize database.">
+        <echo message="Initialize database."/>
+        <java fork="true" failonerror="true"
+              maxmemory="512M"
+              dir="."
+              jar="./lib/herb-liquibase-1.0.jar">
+
+            <jvmarg line="-Xbootclasspath/a:./data"></jvmarg>
+            <jvmarg line="-Xbootclasspath/a:./lib/mysql-connector-java-8.0.19.jar"></jvmarg>
+            <jvmarg line="-Dfile.encoding=utf-8"/>
+
+            <jvmarg line="-Dspring.profiles.active=ant"/>
+
+            <jvmarg line="-Dliquibase.databases.agreement-db.driver=${jdbc.driver}"/>
+            <jvmarg line="-Dliquibase.databases.agreement-db.url=${jdbc.url}"/>
+            <jvmarg line="-Dliquibase.databases.agreement-db.username=${username}"/>
+            <jvmarg line="-Dliquibase.databases.agreement-db.password=${password}"/>
+
+
+            <arg value="update"/>
+        </java>
+    </target>
+
+    <target name="2.upgrade-db" depends="0.about" description="Update database.">
+
+    </target>
+
+
+</project>

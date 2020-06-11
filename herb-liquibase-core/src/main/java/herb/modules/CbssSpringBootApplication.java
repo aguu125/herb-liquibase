@@ -21,6 +21,7 @@ public class CbssSpringBootApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
         SpringApplication.run(CbssSpringBootApplication.class, args);
+
     }
 
     HerbLiquibaseProperties liquibaseProperties;
@@ -39,18 +40,15 @@ public class CbssSpringBootApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        log.info("------------ start to run ------------");
-        log.info("args: {}", Arrays.asList(args));
-
-//        liquibaseProperties
-        log.info("bean: {}", liquibaseProperties);
+        log.info("\n\t CommandLine args:{} ------------",Arrays.asList(args));
+//        log.info("bean: {}", liquibaseProperties);
         if(args != null && args.length > 0) {
-            log.info("start main run...");
-            HerbLiquibaseRunner runner = new HerbLiquibaseRunner(liquibaseProperties,projectVersionsProperties);
+            final HerbLiquibaseRunner runner = new HerbLiquibaseRunner(liquibaseProperties,projectVersionsProperties);
             runner.run(args);
-            //Main.run(args);
-            //liquibase.afterPropertiesSet();
+        }else{
+            log.warn("no CommandLine args,exits.");
         }
-        log.info("------------- finished");
+
+        log.info("------------- finished------------");
     }
 }

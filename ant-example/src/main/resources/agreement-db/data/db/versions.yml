@@ -1,0 +1,5 @@
+project.versions:
+    ## 1.0 版本
+  - version: v1.0
+    change-logs:
+    - {database: agreement-db,change-log: RELEASE_1.0_changelog.xml}

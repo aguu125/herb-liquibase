@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 //通过spring boot的 配置文件信息
@@ -21,8 +20,11 @@ public class HerbLiquibaseRunner {
 
     public HerbLiquibaseRunner(HerbLiquibaseProperties springLiquibase,
                                ProjectVersionsProperties versionsProperties) {
-        this.liquibaseProperties = springLiquibase;
+        if(versionsProperties==null){
+            log.warn("can't find db/versions.yml");
+        }
         this.versionsProperties = versionsProperties;
+        this.liquibaseProperties = springLiquibase;
     }
 
     //扩展支持updateToVersion
@@ -69,6 +71,11 @@ public class HerbLiquibaseRunner {
         if (changelogProperties == null) {
             log.error("changelogProperties is null");
             System.exit(-1);
+        }else{
+            log.info(" chosen version is  : [{}],changlog size is {}",
+                    changelogProperties.getVersion(),
+                    changelogProperties.getChangeLogs().size()
+            );
         }
 
         //开始执行版本
