@@ -13,7 +13,5 @@
     <modules>
         <module>herb-liquibase-core</module>
         <module>ant-example</module>
-<!--        <module>database-intergration</module>-->
     </modules>
-
 </project>
