@@ -1,6 +1,6 @@
 DROP PROCEDURE IF EXISTS `select_user`;;
 
-    CREATE DEFINER=`root`@`%` PROCEDURE `select_user`(
+    CREATE  PROCEDURE `select_user`(
          IN in_id VARCHAR(64)
          )
     BEGIN

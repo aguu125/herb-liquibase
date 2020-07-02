@@ -17,7 +17,7 @@ project.versions:
     - {database: agreement-db,change-Log: /db/agreement-db/RELEASE_1.2_changelog.xml}
 #    - {database: user-db,change-Log: RELEASE_1.1_changelog.xml}
 #
-#  - version: v1.3
-#    change-logs:
-#    - {database: agreement-db,change-Log: RELEASE_1.3_changelog.xml}
+  - version: v1.3
+    change-logs:
+    - {database: agreement-db,change-Log: /db/agreement-db/RELEASE_1.3_changelog.xml}
 #    - {database: user-db,change-Log: RELEASE_1.1_changelog.xml}
