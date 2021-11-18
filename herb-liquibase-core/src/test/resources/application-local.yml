@@ -6,3 +6,9 @@ liquibase:
 #      url: jdbc:mysql://192.168.137.100:3306/user_db?useUnicode=true&characterEncoding=UTF-8
       username: root
       password: 123456
+
+    user-db:
+      driver: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://106.55.7.98:33306/user-db?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+      username: root
+      password: 123456

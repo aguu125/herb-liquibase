@@ -2,22 +2,20 @@ project.versions:
     ## 1.0 版本
   - version: v1.0
     change-logs:
-    - {database: agreement-db,change-log: /db/agreement-db/RELEASE_1.0_changelog.xml}
-    #- {database: user-db,change-log: RELEASE_1.0_changelog.xml}
+#    - {database: agreement-db,change-log: /db/agreement-db/RELEASE_1.0_changelog.xml}
+      - {database: user-db,change-log: /db/user-db/RELEASE_1.0_changelog.xml}
 
     ## 1.1 版本
   - version: v1.1
     change-logs:
-    - {database: agreement-db,change-Log: /db/agreement-db/RELEASE_1.1_changelog.xml}
-#    - {database: user-db,change-Log: RELEASE_1.1_changelog.xml}
+#    - {database: agreement-db,change-Log: /db/agreement-db/RELEASE_1.1_changelog.xml}
+      - {database: user-db,change-Log: /db/user-db/RELEASE_1.1_changelog.xml}
 
     ## 1.2 版本
-  - version: v1.2
-    change-logs:
-    - {database: agreement-db,change-Log: /db/agreement-db/RELEASE_1.2_changelog.xml}
-#    - {database: user-db,change-Log: RELEASE_1.1_changelog.xml}
+#  - version: v1.2
+#    change-logs:
+#    - {database: agreement-db,change-Log: /db/agreement-db/RELEASE_1.2_changelog.xml}
 #
-  - version: v1.3
-    change-logs:
-    - {database: agreement-db,change-Log: /db/agreement-db/RELEASE_1.3_changelog.xml}
-#    - {database: user-db,change-Log: RELEASE_1.1_changelog.xml}
+#  - version: v1.3
+#    change-logs:
+#    - {database: agreement-db,change-Log: /db/agreement-db/RELEASE_1.3_changelog.xml}
