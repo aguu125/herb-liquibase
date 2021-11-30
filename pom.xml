@@ -12,6 +12,6 @@
 
     <modules>
         <module>herb-liquibase-core</module>
-        <module>ant-example</module>
+<!--        <module>ant-example</module>-->
     </modules>
 </project>

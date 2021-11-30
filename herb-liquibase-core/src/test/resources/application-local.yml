@@ -1,14 +1,27 @@
-liquibase:
-  databases:
-    agreement-db:
-      driver: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://192.168.137.100:3306/agreement_db?useUnicode=true&characterEncoding=UTF-8
-#      url: jdbc:mysql://192.168.137.100:3306/user_db?useUnicode=true&characterEncoding=UTF-8
-      username: root
-      password: 123456
+herb.liquibase:
+  defaultDataSource:
+#    driver: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://110.80.142.207:16001/sys?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+#    username: root
+#    password: xz107110
+    driver: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://106.55.7.98:33306/agreement_db?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
 
-    user-db:
-      driver: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://106.55.7.98:33306/user-db?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
-      username: root
-      password: 123456
+  services:
+  #订单服务
+  - serviceName: agreement
+    #如果不填，就使用默认的数据库配置
+    #database: agreement-db
+    versions:
+      ## 1.0 版本
+      - {name: v1.0,change-log: /agreement/RELEASE_1.0_changelog.xml}
+      ## 1.1 版本
+      - {name: v1.1,change-log: /agreement/RELEASE_1.1_changelog.xml}
+      ## 1.2 版本
+      #      - {name: v1.2,change-log: /agreement/RELEASE_1.2_changelog.xml}
+      ## 1.3 版本
+#      - {name: v1.3,change-log: /agreement/RELEASE_1.3_changelog.xml}
+
+##todo 多个微服务

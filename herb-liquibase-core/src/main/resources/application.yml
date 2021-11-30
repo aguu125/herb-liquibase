@@ -1,8 +1,7 @@
 spring:
-#  profiles:
-#    include: datasource
-  info:
-    version: 1.0
+  #  profiles:
+  #    active: local
+  #    include: datasource
   application:
     name: liquibase
     ##数据库配置
@@ -19,8 +18,6 @@ spring:
     #Spring Boot在应用程序启动时自动运行Liquibase数据库迁移。
     #    enabled: false
     # 禁止清库执行
-  profiles:
-    active: local
 #    drop-first: true
 #    change-log: classpath:/db.changelog-master.xml
 #    database-change-log-table: lg_db_change_log

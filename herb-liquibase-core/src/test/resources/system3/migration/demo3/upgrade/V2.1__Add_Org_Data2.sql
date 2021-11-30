@@ -1,0 +1,1 @@
+insert into `sys_org` values (3,'Felordcn3','111111',18);

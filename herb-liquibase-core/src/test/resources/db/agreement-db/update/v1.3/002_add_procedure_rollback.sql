@@ -1,2 +1,0 @@
-DROP PROCEDURE IF EXISTS `getRoleSP`;
-
